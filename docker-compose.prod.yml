@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  node:
+    container_name: node_telegram
+    restart: always
+    build: . 
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+  mongo:
+    container_name: mongo_prod
+    image: mongo
+    command: mongod --port 27019
+    volumes:
+      - ./data/prod:/data/prod
+    ports:
+      - "27019:27019"

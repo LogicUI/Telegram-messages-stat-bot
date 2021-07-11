@@ -1,0 +1,31 @@
+version: "3.7"  
+services:
+    node:
+        container_name: node_telegram
+        restart: always
+        build: 
+            context: . 
+            dockerfile: dockerfile-dev
+        volumes:
+            - ./src:/home/node/app/src
+        ports:
+            - 3003:3003
+        links:
+            - mongo  
+            - mongo2
+        depends_on:
+            - mongo
+            - mongo2
+    mongo:
+        container_name: mongo_dev 
+        image: mongo 
+        volumes:
+            - ./data/dev:/data/dev
+        ports:
+            - "27017:27017"
+    mongo2:
+        container_name: mongo_test
+        image: mongo 
+        command: mongod --port 27018
+        ports: 
+            - "27018:27018"
